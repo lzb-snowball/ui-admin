@@ -1,0 +1,11 @@
+.login-container {
+    background-image: url(/static/login_bg.jpg);
+    .el-button--primary{
+        background-color: indianred;
+        border-color: indianred;
+    }
+}
+
+.sidebar-container {
+    background-image: linear-gradient(189deg, indianred, indianred);
+}

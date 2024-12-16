@@ -1,0 +1,6 @@
+.login-container {
+    background-image: url(/static/login_bg.jpg);
+}
+.sidebar-container {
+    background-image: linear-gradient(189deg, #297adc, #3b95ff);
+}

@@ -1,0 +1,74 @@
+
+// 竖屏样式
+@media screen and (orientation:portrait) {
+  #breadcrumb-container {
+    display: none;
+  }
+
+  .app-main {
+    .app-container {
+      padding: 8px;
+    }
+    // 统计页面
+    .static-info {
+      .el-row {
+        margin-left: 0 !important;
+        margin-right: 0 !important;
+        .el-col {
+          width: 50%;
+          padding-left: 5px !important;
+          padding-right: 5px !important;
+        }
+      }
+    }
+    // 搜索框
+    .zparent {
+      flex-wrap: wrap;
+      > div {
+        flex-basis: 45%;
+      }
+    }
+    .dict-content {
+      .el-form {
+        .el-form-item__label {
+          width: 100px !important;
+        }
+        .el-form-item__content {
+          margin-left: 100px !important;
+        }
+      }
+    }
+  }
+
+  // 表单
+  .el-form {
+    width: 100% !important;
+    margin-left: 0 !important;
+    .el-form-item {
+      flex-basis: 100% !important;
+    }
+  }
+  .el-tabs {
+    .el-tabs__nav-next, .el-tabs__nav-prev {
+      width: 30px;
+      text-align: center;
+    }
+    &.el-tabs--left {
+      .el-tabs__item {
+        padding: 0 8px;
+      }
+    }
+  }
+  .el-dialog {
+    width: 95% !important;
+  }
+  .el-date-range-picker {
+    .el-picker-panel__body {
+      display: flex;
+      flex-direction: column;
+    }
+  }
+  .el-date-editor.el-input, .el-date-editor.el-input__inner {
+    width: auto !important;
+  }
+}
