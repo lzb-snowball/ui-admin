@@ -63,7 +63,6 @@
         <el-button :loading="loading" type="primary" style="width:100%;margin-bottom:30px;"
                    @click.native.prevent="handleLogin">{{$t('登录')}}
         </el-button>
-<!--        <zselect :value="type2" :multiple="true" classname="EnumRegisterProps" placeholder="placeholder"></zselect>-->
       </el-form>
 
       <p class="copyright"><span>Copyright © 2022 See. All Rights Reserved.</span></p>
@@ -89,7 +88,6 @@ export default {
     ZselectAppend
     // HelloWorld
   },
-  $dataEnums: ['EnumRegisterProps'], // 例如 EnumSex
   data() {
     return {
       types: 'username,password',

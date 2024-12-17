@@ -43,7 +43,7 @@ export default {
   name: 'AuthDict',
   components: { baseField, zinput, zselect, zselectAppend },
   extends: configEntity,
-  $dataEnums: ['EnumRegisterProps', 'EnumRegisterUsernameFrom'], // 例如 EnumSex
+  // $dataEnums: ['EnumRegisterProps', 'EnumRegisterUsernameFrom'], // 例如 EnumSex
   data() {
     return {
       isAllExpanded: true,
