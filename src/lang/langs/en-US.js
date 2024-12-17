@@ -118,6 +118,7 @@ export default {
   支付商户:'Payment merchant',
   支付渠道:'Payment channel',
   代付银行卡:'Payment bank card',
+  面板:'Panel',
 
 // 语言: '英语',
 }

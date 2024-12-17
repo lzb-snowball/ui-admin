@@ -12,7 +12,7 @@ export const constantRoutes = [
     path: '/',
     component: Layout,
     children: [
-      { path: '/dashboard', component: () => import('@/views/dashboard'), hidden: true, meta: { ignoreAuth: true }},
+      { path: '/dashboard', component: () => import('@/views/dashboard'), hidden: true, meta: { ignoreAuth: true, title: '面板' }},
       { path: '/sys/authDict2', component: () => import('@/views/sys/authDict'), meta: { title: '字典管理' }},
       { path: '/content/country2', component: () => import('@/views/content/country'), meta: { title: '国家管理' }},
       { path: '/content/posterCode', component: () => import('@/views/content/posterCode'), meta: { title: '文章编号' }},

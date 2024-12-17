@@ -47,7 +47,7 @@ export default {
   filters: {},
   props: {},
   $dataEnums: ['EnumInputFieldTypeOpt', 'JTDConst_EnumFieldUiType'], // 例如 EnumSex
-  $dataEntitys: ['payCardType'], // 例如 UserLevelConfig
+  // $dataEntitys: ['payCardType'], // 例如 UserLevelConfig
   data() {
     return {
       tableConfigUnit: {},
