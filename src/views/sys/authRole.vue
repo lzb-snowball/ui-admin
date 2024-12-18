@@ -1,5 +1,5 @@
 <script>
-import configEntity from '@/views/component/configEntity.vue'
+import configEntity from '@/parent-ui/src/main/business/admin/configEntity.vue'
 import routeTree from '@/views/sys/routeTree.vue'
 
 export default {

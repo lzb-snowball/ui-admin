@@ -31,7 +31,7 @@
   </div>
 </template>
 <script>
-import configEntity from '@/views/component/configEntity.vue'
+import configEntity from '@/parent-ui/src/main/business/admin/configEntity.vue'
 import baseField from '@/parent-ui/src/main/ui-element/autotable/baseField.vue'
 import zselectAppend from '@/parent-ui/src/main/ui-element/zselectAppend.vue'
 import zselect from '@/parent-ui/src/main/ui-element/zselect.vue'

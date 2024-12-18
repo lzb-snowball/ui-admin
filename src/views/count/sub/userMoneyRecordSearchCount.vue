@@ -76,7 +76,7 @@
 import MixinScope from '@/parent-ui/src/main/js/mixin/MixinScope'
 import Zinput from '@/parent-ui/src/main/ui-element/zinput.vue'
 import Zselect from '@/parent-ui/src/main/ui-element/zselect.vue'
-import configEntity from '@/views/component/configEntity.vue'
+import configEntity from '@/parent-ui/src/main/business/admin/configEntity.vue'
 import CollUtil from '@/parent-ui/src/main/js/utils/CollUtil'
 
 export default {

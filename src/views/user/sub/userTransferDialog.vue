@@ -14,7 +14,7 @@
   </div>
 </template>
 <script>
-import userEntity from '@/views/component/userEntity.vue'
+import userEntity from '@/parent-ui/src/main/business/admin/userEntity.vue'
 import MixinScope from '@/parent-ui/src/main/js/mixin/MixinScope'
 import { Areas, Option } from '@/parent-ui/src/main/ui-element/autotable/area'
 import Zselect from '@/parent-ui/src/main/ui-element/zselect.vue'

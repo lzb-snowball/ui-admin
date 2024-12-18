@@ -51,7 +51,7 @@
   </div>
 </template>
 <script>
-import userEntity from '@/views/component/userEntity.vue'
+import userEntity from '@/parent-ui/src/main/business/admin/userEntity.vue'
 import UserTransferDialog from '@/views/user/sub/userTransferDialog.vue'
 
 export default {

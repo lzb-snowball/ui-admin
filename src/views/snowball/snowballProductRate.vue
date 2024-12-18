@@ -2,7 +2,7 @@
 <!--  <div>adminButtons={{tableConfigUnitInner.tableConfigs.base.adminButtons}}</div>-->
 <!--</template>-->
 <script>
-import configEntity from '@/views/component/configEntity.vue'
+import configEntity from '@/parent-ui/src/main/business/admin/configEntity.vue'
 
 export default {
   name: 'SnowballProductRate',

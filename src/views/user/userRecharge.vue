@@ -49,7 +49,7 @@
   </div>
 </template>
 <script>
-import userEntity from '@/views/component/userEntity.vue'
+import userEntity from '@/parent-ui/src/main/business/admin/userEntity.vue'
 
 export default {
   name: 'UserRecharge',

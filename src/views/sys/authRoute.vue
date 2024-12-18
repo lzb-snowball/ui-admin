@@ -1,5 +1,5 @@
 <script>
-import configEntity from '@/views/component/configEntity.vue'
+import configEntity from '@/parent-ui/src/main/business/admin/configEntity.vue'
 import CollUtil from '@/parent-ui/src/main/js/utils/CollUtil'
 
 export default {
