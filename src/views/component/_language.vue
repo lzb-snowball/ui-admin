@@ -8,11 +8,11 @@
         :label="' '"
       >
 <!--        :label="item.name"-->
-        <img :src="getFileViewUrl(item.icon || `/static/country/${item.langCode}.png`)" style="max-width: 20px;"><span class="u-m-l-10">{{ item.name }}</span>
+        <img :src="getFileViewUrl(item.icon || `/static/country/${item.langCode}.png`)" style="max-width: 20px;" @error="onImageError($event, item.langCode)"><span class="u-m-l-10">{{ item.name }}</span>
       </el-option>
       <template #prefix>
 <!--        <div style="">-->
-          <img :src="getFileViewUrl(country.icon || `/static/country/${country.langCode}.png`)" @click="showLanguagePop = true" class="" style="max-height: 18px;">
+          <img :src="getFileViewUrl(country.icon || `/static/country/${country.langCode}.png`)" @click="showLanguagePop = true" class="" style="max-height: 18px;" @error="onImageError($event, country.langCode)">
 <!--          <div class="" style="line-height: 20px;">{{ country.name }}</div>-->
 <!--        </div>-->
       </template>
@@ -74,6 +74,10 @@ export default {
       Cookies.set('country',JSON.stringify(country))
       this.$store.set('country', country)
       location.reload()
+    },
+    onImageError(event, langCode) {
+      // 当图片加载失败时，设置为默认的回退图片
+      event.target.src = `/static/country/${langCode}.png`;
     },
   }
 }

@@ -32,6 +32,7 @@ export default {
   实时在线用户数: 'Number of real-time online users',
   总览: 'Overview',
   刷新站点全部缓存: 'Refresh all site caches',
+  翻译键值: 'Translation Key',
   展开: 'Expand',
   链接示例: 'Link example',
 

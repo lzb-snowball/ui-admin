@@ -8,7 +8,8 @@
       @showForm="showForm"
     >
       <template #buttonAfter>
-        <el-button size="small" type="warning" @click="reload" class="mr-4">{{$t('刷新站点全部缓存')}}</el-button>
+        <el-button size="small" type="warning" @click="reload" class="mr-2">{{$t('刷新站点全部缓存')}}</el-button>
+        <el-button size="small" type="warning" @click="reloadTranslateKeys" class="mr-2">{{$t('翻译键值')}}</el-button>
         <el-checkbox v-model="isAllExpanded" size="small" type="warning" @change="toggleExpand">{{$t('展开')}}</el-checkbox>
       </template>
     </areaSearch>
@@ -28,6 +29,9 @@
       :form-data-option="formDataOption"
       @saveSuccess="getPage();dialogFormVisible=false"
     />
+    <el-dialog v-if="reloadTranslateKeysContentDialog" :visible.sync="reloadTranslateKeysContentDialog" title="翻译键值">
+      <div v-html="reloadTranslateKeysContent" ></div>
+    </el-dialog>
   </div>
 </template>
 <script>
@@ -46,6 +50,8 @@ export default {
   // $dataEnums: ['EnumRegisterProps', 'EnumRegisterUsernameFrom'], // 例如 EnumSex
   data() {
     return {
+      reloadTranslateKeysContentDialog:false,
+      reloadTranslateKeysContent:'',
       isAllExpanded: true,
       pageParams: {
         pageSize: 2000,
@@ -121,6 +127,12 @@ export default {
     async reload(data) {
       await $$get('/common/reload')
       this.$message.success('操作成功')
+    },
+    async reloadTranslateKeys(data) {
+      this.reloadTranslateKeysContent = await $$get('/commonTable/reloadTranslateKeys')
+      this.$message.success('操作成功')
+      this.reloadTranslateKeysContent
+      this.reloadTranslateKeysContentDialog = true
     },
     async changeValue(entity) {
       console.log('this.$refs.table.pageLoading', this.$refs.table.pageLoading)
