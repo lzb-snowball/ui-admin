@@ -95,7 +95,7 @@ export default {
         bankCodeFilter: {
           form: {
             fieldName: 'bankCodeFilter',
-            simpleLabel: '代付银行过滤名称',
+            label: '代付银行过滤名称',
             uiType: 'bool',
             group: '代付信息',
           }

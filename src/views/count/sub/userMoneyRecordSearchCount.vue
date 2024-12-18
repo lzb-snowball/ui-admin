@@ -112,7 +112,7 @@ export default {
           agentId: {
             base: {
               "fieldName": "agentId",
-              "simpleLabel": this.$t("推广代理"),
+              "label": this.$t("推广代理"),
               "uiType": "select",
               // "mainLength": 20,
               // "group": "邀请",

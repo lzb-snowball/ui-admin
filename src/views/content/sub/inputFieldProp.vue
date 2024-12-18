@@ -1,7 +1,7 @@
 <template>
   <zdata v-if="submitFormEntityName" :url="`/commonTable/simpleInfo/${submitFormEntityName}`">
     <template #default="{datas}">
-      <zselect v-if="datas" v-model="scope.value" :dict-list="datas.fields" :filter="filter" list-code="fieldName" list-label="simpleLabel" @selectOption="o=>$emit('selectOption',o)" />
+      <zselect v-if="datas" v-model="scope.value" :dict-list="datas.fields" :filter="filter" list-code="fieldName" list-label="label" @selectOption="o=>$emit('selectOption',o)" />
       <zinput v-if="datas" v-model="scope.value" @selectOption="o=>$emit('selectOption',o)" />
     </template>
   </zdata>

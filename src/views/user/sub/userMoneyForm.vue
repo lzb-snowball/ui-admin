@@ -3,7 +3,7 @@
 <!--                <template v-for="(fieldName,index) in fieldNames">-->
 <!--                  <template v-if="true !== getFieldConfig(fieldName).hide">-->
 <!--                    <div :key="indexGroup+'_'+index" class="areaTableColumnField">-->
-<!--                      <div>{{ getFieldConfig(fieldName).simpleLabel }}</div>-->
+<!--                      <div>{{ getFieldConfig(fieldName).label }}</div>-->
 <!--                      <div>-->
 <!--                        <baseField-->
 <!--                            :key="`tableColumn_field_${indexGroup}_${fieldName}`"-->

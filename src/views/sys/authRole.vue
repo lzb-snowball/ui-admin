@@ -43,7 +43,7 @@ export default {
             render() {
               return <routeTree v-model={this.innerValue}></routeTree>
             },
-            simpleLabel: this.$t('权限树')
+            label: this.$t('权限树')
           },
           tableColumn: {},
           tableSearch: {},

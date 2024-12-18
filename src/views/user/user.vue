@@ -123,7 +123,7 @@ export default {
           search: {
             fieldName: 'isOnline',
             uiType: 'bool',
-            simpleLabel: '是否在线',
+            label: '是否在线',
           }
         },
         username: {
@@ -141,7 +141,7 @@ export default {
             fieldName: 'userMoneys',
             style: 'font-size:15px;',
             group: this.$t('数额'),
-            simpleLabel: this.$t('余额'),
+            label: this.$t('余额'),
             // uiType: 'text',
             render(h, entity, attrs) {
               const amount = this.innerValue && this.innerValue.length && this.innerValue[0].amount || 0
@@ -168,14 +168,14 @@ export default {
     getCfg(group, propCode, propLabel) {
       let propCfg = this.userAmountTotalTableInfo.fieldConfigsMap[propCode];
       if (propCfg) {
-        propLabel = propCfg.base.simpleLabel
+        propLabel = propCfg.base.label
       }
       // group = this.fieldConfigsMap[propCode].base.group
       return {
         table: {
           fieldName: 'userAmountTotal_' + propCode,
           group: this.$t(group),
-          simpleLabel: propLabel,
+          label: propLabel,
           render(h, entity, attrs) {
             const userAmountTotal = entity.userAmountTotal || {}
             return <span>{userAmountTotal[propCode]}</span>

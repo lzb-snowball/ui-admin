@@ -38,6 +38,7 @@ const store = new Vuex.Store({
     ...defaultMutations(state),
     addDataMapEntity(state, map) {
       for (const key of Object.keys(map)) {
+        // console.log(`map[key] ${key}`,map[key])
         Vue.set(state.dataMapEntity, key, map[key])
       }
     },
@@ -52,6 +53,15 @@ const store = new Vuex.Store({
     }
   },
   actions: {
+    async clearDataMapEntity({ commit, state }, dataEntitys = []) {
+      if (dataEntitys) {
+        let obj = {}
+        dataEntitys.forEach(dataEntity=>{
+          obj[dataEntity] = null
+        })
+        commit('addDataMapEntity', obj)
+      }
+    },
     async loadDataMapEntity({ commit, state }, dataEntitys = []) {
       if (dataEntitys) {
         dataEntitys = dataEntitys.filter(dataEntity => !state.dataMapEntity[dataEntity])
