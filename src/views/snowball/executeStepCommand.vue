@@ -35,6 +35,11 @@ export default {
     return {
       tableConfigUnit: {
         entityName: 'executeStepCommand',
+        tableConfigs: {
+          search: {
+            addFieldNames: ['content'],
+          }
+        },
       }
     }
   },

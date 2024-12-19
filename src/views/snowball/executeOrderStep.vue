@@ -26,7 +26,7 @@
   </div>
 </template>
 <script>
-import configEntity from '@/parent-ui/src/main/business/admin/configEntity.vue'
+import configEntity from '@/parent-ui/src/main/business/admin/userEntity.vue'
 
 export default {
   name: 'payCardType',
