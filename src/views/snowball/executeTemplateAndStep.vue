@@ -29,7 +29,7 @@
 import configEntity from '@/parent-ui/src/main/business/admin/configEntity.vue'
 
 export default {
-  name: 'payCardType',
+  name: 'executeTemplateAndStep',
   extends: configEntity,
   data() {
     return {

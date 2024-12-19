@@ -29,7 +29,7 @@
 import configEntity from '@/parent-ui/src/main/business/admin/userEntity.vue'
 
 export default {
-  name: 'payCardType',
+  name: 'executeOrder',
   extends: configEntity,
   data() {
     return {
