@@ -14,7 +14,7 @@
       :page-params="pageParams"
       @showForm="showForm"
     >
-      <template #tableOptionColumnOther="scope">
+      <template #tableOptionAppend="scope">
         <el-button
           v-if="hasPerm('userTransfer','insert') && scope.row.status === 'CHECKING'"
           type="warning"

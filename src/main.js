@@ -41,9 +41,18 @@ async function initData() {
                             startEndDefaultTime: ['00:00:00', '23:59:59']
                         },
                         table: {
+                            class: 'compact-table',
+                            size: 'mini',
                             border: false,
                         },
+                    },
+                fieldConfigsMap:{
+                    createTime:{
+                        table:{
+                            width:142
+                        }
                     }
+                }
             }
         }
     })

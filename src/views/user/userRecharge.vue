@@ -14,7 +14,7 @@
       :page-params="pageParams"
       @showForm="showForm"
     >
-      <template #tableOptionColumnOther="scope">
+      <template #tableOptionAppend="scope">
         <template v-if="scope.row.state === 'UNPAID' && hasPerm('userRecharge','update')">
           <div>
             <el-button type="text" size="mini" title="" class="pa-0 mb-4" @click="directSuccess(scope.row.id)">

@@ -112,3 +112,23 @@
 .fixed-width .el-button--mini {
   width: auto;
 }
+//.compact-table .el-table__row {
+//  height: 30px; /* 自定义行高 */
+//}
+//.compact-table .el-table__cell {
+//  font-size: 12px; /* 自定义字体大小 */
+//  padding: 6px;    /* 自定义内边距 */
+//}
+/* 覆盖默认的 el-table 样式 */
+.el-table.compact-table .cell {
+  font-size: 12px; /* 缩小字体 */
+  padding: 4px 8px; /* 缩小内边距 */
+  line-height: 1.2; /* 更紧凑的行高 */
+}
+
+/* 如果你使用了 mini 模式 */
+.el-table--mini.compact-table .el-table__cell {
+  font-size: 11px; /* 更小的字体 */
+  padding: 2px 6px; /* 更小的内边距 */
+  line-height: 1.1; /* 紧凑的行高 */
+}

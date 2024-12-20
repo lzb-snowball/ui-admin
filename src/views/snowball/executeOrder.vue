@@ -35,6 +35,12 @@ export default {
     return {
       tableConfigUnit: {
         entityName: 'executeOrder',
+        tableConfigs:
+            {
+              table: {
+                stripe: true,
+              },
+            },
       }
     }
   },

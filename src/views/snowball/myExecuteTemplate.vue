@@ -33,7 +33,7 @@
                                 }
                               }"></execute-order>
       </template>
-      <template #tableOptionColumnOther="scope">
+      <template #tableOptionPrepend="scope">
         <div v-if="hasPerm('executeOrder','insert')">
           <el-button type="text" size="mini" title="" class="pa-0 mb-4" @click="saveOrUpdate(scope.row,'DOING')">
             开始

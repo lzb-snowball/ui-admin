@@ -29,7 +29,7 @@
       <!--          </template>-->
       <!--        </el-table-column>-->
       <!--      </template>-->
-      <template #tableOptionColumnOther="scope">
+      <template #tableOptionAppend="scope">
         <el-button size="small" @click="openList(scope)">{{$t('列表信息')}}</el-button>
         <el-button v-if="hasPerm('userRecharge', 'insert')" type="warning" size="small" @click="openRechargeDialog(scope)">{{$t('充值')}}</el-button>
       </template>
