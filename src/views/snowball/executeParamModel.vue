@@ -1,6 +1,5 @@
 <template>
   <div v-if="tableConfigUnitInner.loaded" class="pa-4">
-    <area-field-desc :getDescription="getDescription"></area-field-desc>
     <!--    <el-alert type="success">{{$t('提示')}}</el-alert>-->
     <!--搜索-->
     <areaSearch
@@ -28,29 +27,45 @@
 </template>
 <script>
 import configEntity from '@/parent-ui/src/main/business/admin/configEntity.vue'
-import AreaFieldDesc from "@/views/component/areaFieldDesc.vue";
 
 export default {
-  name: 'remoteServer',
-  components: {AreaFieldDesc},
+  name: 'executeParamModel',
   extends: configEntity,
   data() {
     return {
       tableConfigUnit: {
-        entityName: 'remoteServer',
+        entityName: 'executeParamModel',
+        tableConfigs: {
+          table: {
+            filterButton(btn, scope) {
+              switch (btn) {
+                case 'delete':
+                  return !scope.row.system
+              }
+              return true
+            }
+          },
+        },
+        fieldConfigsMap: {
+          code: { // 拿id字段的配置举例
+            form: {
+              changeAttrs(attrs, entity){
+                attrs.disabled = entity.system
+                return attrs
+              }
+            },
+          },
+          system: { // 拿id字段的配置举例
+            base: {
+              changeAttrs(attrs, entity){
+                attrs.disabled = true
+                return attrs
+              }
+            },
+          },
+        },
       }
     }
   },
-  methods:{
-    getDescription() {
-      let servers = Object.values(this.$refs.table.fieldConfigMap).filter(f => f.fieldName && !['enabled','createTime'].includes(f.fieldName))
-          .map(f => '        ' + `#{server.${f.fieldName}}` + ' : ' + f.label + '\n')
-      return '<foreach collection="servers" item="server">\n' +
-          '    <if test="server.host == \'127.0.0.1\'">\n' +
-          servers.join('') +
-          '    </if>\n' +
-          '</foreach>'
-    },
-  }
 }
 </script>

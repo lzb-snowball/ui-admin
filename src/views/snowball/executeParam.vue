@@ -1,6 +1,5 @@
 <template>
   <div v-if="tableConfigUnitInner.loaded" class="pa-4">
-    <area-field-desc :getDescription="getDescription"></area-field-desc>
     <!--    <el-alert type="success">{{$t('提示')}}</el-alert>-->
     <!--搜索-->
     <areaSearch
@@ -28,29 +27,34 @@
 </template>
 <script>
 import configEntity from '@/parent-ui/src/main/business/admin/configEntity.vue'
-import AreaFieldDesc from "@/views/component/areaFieldDesc.vue";
+import executeParamValue from './executeParamValue'
 
 export default {
-  name: 'remoteServer',
-  components: {AreaFieldDesc},
+  name: 'executeParam',
+  components: { executeParamValue, },
   extends: configEntity,
   data() {
     return {
       tableConfigUnit: {
-        entityName: 'remoteServer',
+        entityName: 'executeParam',
       }
     }
   },
-  methods:{
-    getDescription() {
-      let servers = Object.values(this.$refs.table.fieldConfigMap).filter(f => f.fieldName && !['enabled','createTime'].includes(f.fieldName))
-          .map(f => '        ' + `#{server.${f.fieldName}}` + ' : ' + f.label + '\n')
-      return '<foreach collection="servers" item="server">\n' +
-          '    <if test="server.host == \'127.0.0.1\'">\n' +
-          servers.join('') +
-          '    </if>\n' +
-          '</foreach>'
-    },
+  created(){
+    this.tableConfigUnit = {
+      entityName: 'executeParam',
+      fieldConfigsMap: {
+        value:{
+          form :{
+            render(p1,entity) {
+              // console.log('modelCode',arguments)
+              return <executeParamValue v-model={this.innerValue} modelCode={entity.modelCode}></executeParamValue>
+              // return <el-input v-model={this.innerValue}></el-input>
+            }
+          }
+        }
+      }
+    }
   }
 }
 </script>

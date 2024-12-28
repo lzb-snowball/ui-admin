@@ -1,6 +1,6 @@
 <template>
   <div v-if="tableConfigUnitInner.loaded" class="pa-4">
-    <!--    <el-alert type="success">默认统一为BANK,仅用于展示</el-alert>-->
+    <!--    <el-alert type="success">{{$t('提示')}}</el-alert>-->
     <!--搜索-->
     <areaSearch
         :table-config-unit="tableConfigUnitInner"
@@ -26,11 +26,13 @@
   </div>
 </template>
 <script>
-import configEntity from '@/parent-ui/src/main/business/admin/userEntity.vue'
+
+
+import areaTableUnit from "@/parent-ui/src/main/ui-element/autotable/areaTableUnit.vue";
 
 export default {
   name: 'executeOrderStepCommand',
-  extends: configEntity,
+  extends: areaTableUnit,
   data() {
     return {
       tableConfigUnit: {

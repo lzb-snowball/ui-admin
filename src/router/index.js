@@ -17,9 +17,6 @@ export const constantRoutes = [
       { path: '/content/country2', component: () => import('@/views/content/country'), meta: { title: '国家管理' }},
       { path: '/content/posterCode', component: () => import('@/views/content/posterCode'), meta: { title: '文章编号' }},
       { path: '/content/bannerType', component: () => import('@/views/content/bannerType'), meta: { title: '导航广告栏类型' }},
-      { path: '/pay/payMerchant2', component: () => import('@/views/pay/payMerchant'), meta: { title: '支付商户' }},
-      { path: '/pay/payChannel2', component: () => import('@/views/pay/payChannel'), meta: { title: '支付渠道' }},
-      { path: '/pay/payBank2', component: () => import('@/views/pay/payBank'), meta: { title: '代付银行卡' }},
       { path: '/sys/password', component: () => import('@/views/sys/password'), meta: { title: '修改密码' }},
     ]
   },
