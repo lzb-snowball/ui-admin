@@ -27,7 +27,7 @@
                                     hide: true
                                   },
                                   table: {
-                                    removeFieldNames: ['myTemplateId','templateId','logFileFull','logFileError'],
+                                    removeFieldNames: ['myTemplateId','templateId'],
                                     stripe: true,
                                     page:{
                                       hide: true,
@@ -41,7 +41,7 @@
         </div>
       </template>
       <template #tableOptionPrepend="scope">
-        <my-execute-template-execute :scope="scope" :order="{id:scope.row.lastOrderId,myTemplateId:scope.row.id,state:scope.row.lastOrderState}" @executeBefore="executeBefore" @executeSuccess="executeSuccess" :opts="['DOING','STOP']"></my-execute-template-execute>
+        <my-execute-template-execute :scope="scope" :order="{id:scope.row.lastOrderId,myTemplateId:scope.row.id,state:scope.row.lastOrderState}" @executeBefore="executeBefore" @executeSuccess="executeSuccess" :from="'myExecuteTemplate'"></my-execute-template-execute>
           <!--          <el-button v-if="hasPerm('executeOrder','selectOne')" size="mini" title="" class="pa-0" @click="viewOrder(scope.row.id)">-->
           <!--            执行详情-->
           <!--          </el-button>-->
@@ -134,6 +134,13 @@ export default {
         record.visibleStop = false
         record.visibleStart = false
       })
+      if (!This.mixin.isProd) {
+        // setTimeout(()=>{
+        if (page.records.length) {
+          This.executeBefore(page.records[0])
+        }
+        // },500)
+      }
       return page
     }
 
@@ -142,6 +149,8 @@ export default {
       // todo 订单详情
       This.jump(`/snowball/executeOrder?id=${entity.lastOrderId}`)
     }
+
+
     // this.$refs.table.$refs.table.toggleRowExpansion(row, true)
   },
   methods: {

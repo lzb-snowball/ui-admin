@@ -40,7 +40,7 @@ export default {
             filterButton(btn, scope) {
               switch (btn) {
                 case 'delete':
-                  return !scope.row.system
+                  return !scope.row.systemFlag
               }
               return true
             }
@@ -50,12 +50,12 @@ export default {
           code: { // 拿id字段的配置举例
             form: {
               changeAttrs(attrs, entity){
-                attrs.disabled = entity.system
+                attrs.disabled = entity.systemFlag
                 return attrs
               }
             },
           },
-          system: { // 拿id字段的配置举例
+          systemFlag: { // 拿id字段的配置举例
             base: {
               changeAttrs(attrs, entity){
                 attrs.disabled = true

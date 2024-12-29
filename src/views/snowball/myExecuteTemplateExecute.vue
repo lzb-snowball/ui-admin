@@ -20,13 +20,17 @@
             </div>
           </el-alert>
           <div>
-            过滤:  <zbool v-model="inputParamMapFilter.executeEdit" :true-label-input="$t('可编辑')" :false-label-input="$t('不可编辑')" :is-edit="true" size="small"></zbool>
+            过滤:  <zbool v-model="inputParamMapFilter.executeEdit" :true-label-input="$t('可编辑')"
+                          :false-label-input="$t('不可编辑')" :is-edit="true" size="small"></zbool>
           </div>
           <el-form :model="inputParamMap" label-width="100px">
             <template v-for="param in params">
                <el-form-item v-if="param" :label="$t(param.name || param.modelCode)" :prop="param.modelCode">
-                  <zselect v-if="param.model.multipleField" v-model="inputParamMap[param.modelCode]" :dict-list="param.modelSelects" list-label="name" :disabled="!param.executeEdit" :is-edit="true" :multiple="param.model.multipleValue"/>
-                  <el-input v-else v-model="inputParamMap[param.modelCode]" type="textarea" :disabled="!param.executeEdit"/>
+                  <zselect v-if="param.model.multipleField" v-model="inputParamMap[param.modelCode]"
+                           :dict-list="param.modelSelects" list-label="name" :disabled="!param.executeEdit"
+                           :is-edit="true" :multiple="param.model.multipleValue"/>
+                  <el-input v-else v-model="inputParamMap[param.modelCode]" type="textarea"
+                            :disabled="!param.executeEdit"/>
                </el-form-item>
            </template>
          </el-form>
@@ -45,10 +49,10 @@
           {{ $t('确定') }}
         </el-button>
       </div>
-      <el-button slot="reference" type="primary"
-                 v-show="hasPerm('executeOrder','insert') && ['SUCCESS','FAIL','STOP',undefined].includes(order.state) && opts.includes('DOING')"
+      <el-button slot="reference" :type="'executeOrder'=== from?'warning':'primary'"
+                 v-show="hasPerm('executeOrder','insert') && ['SUCCESS','FAIL','STOP',undefined].includes(order.state) "
                  size="mini" title="" class="pa-0 mr-2">
-        {{ $t('开始') }}
+        {{ 'executeOrder'=== from ? $t('重试') : $t('开始') }}
       </el-button>
     </el-popover>
     <el-popover
@@ -65,7 +69,7 @@
         </el-button>
       </div>
       <el-button slot="reference" type="warning"
-                 v-show="hasPerm('executeOrder','update') && ['DOING'].includes(order.state) && opts.includes('STOP')"
+                 v-show="hasPerm('executeOrder','update') && ['DOING'].includes(order.state)"
                  size="mini" title="" class="pa-0 mr-2">
         {{ $t('终止') }}
       </el-button>
@@ -87,7 +91,7 @@ export default {
   name: 'myExecuteTemplateExecute',
   components: {Zbool, Zselect},
   props: {
-    opts: {},
+    from: {},
     scope: {},
     order: {},
   },
@@ -119,8 +123,8 @@ export default {
     }
   },
   computed: {
-    params(){
-      return this.commandParams.filter(p=>{
+    params() {
+      return this.commandParams.filter(p => {
         for (let filterKey of Object.keys(this.inputParamMapFilter)) {
           let filterValue = this.inputParamMapFilter[filterKey];
           let paramValue = p[filterKey]
@@ -148,7 +152,7 @@ export default {
       orderUpdate.optType = 'changeState'
       orderUpdate.state = newState
       orderUpdate.inputParamMap = this.inputParamMap
-      if (newState === 'DOING') {
+      if (this.from === 'myExecuteTemplate' && newState === 'DOING') {
         orderUpdate.id = null
       }
       // let optType = "changeState"
@@ -157,7 +161,7 @@ export default {
       $$post('/commonData/insertOrUpdate/executeOrder', orderUpdate).then(async (res) => {
         this.$message.success(label + this.$t('成功'))
         console.log('row', row)
-        let newTemplate = await $$get('/commonData/selectOne/myExecuteTemplate', {id: row.id});
+        let newTemplate = await $$get('/commonData/selectOne/myExecuteTemplate', {id: order.myTemplateId});
         console.log('rowNew', newTemplate)
         // row = {...newTemplate}
 
@@ -173,28 +177,30 @@ export default {
     },
     async loadCommands(row) {
       if (row.id) {
-        this.formDataLoadCommands = await $$get('/execute/loadCommands', {myTemplateId: row.id})
+        let order = await $$get('/execute/loadCommands', {myTemplateId: this.order.myTemplateId})
+        let executeParamMap = order.executeParamMap
+        this.formDataLoadCommands = order.orderStepCommands
         this.formDataLoadCommandsLack = this.formDataLoadCommands.filter(c => c.contentParamRequiredsLack.length)
         this.commandParamModelCodes = CollUtil.deduplicateArray(this.formDataLoadCommands.map(c => c.contentParamRequireds).flat())
         this.$set(row, 'loadCommands', this.formDataLoadCommands)
         if (this.commandParamModelCodes.length) {
-          let paramsMyTemplate = await $$get('/commonData/selectList/executeParam', {
-            myTemplateId: row.id,
-            modelCode: '#in#' + this.commandParamModelCodes.join(',')
-          })
-          let paramsGroup = await $$get('/commonData/selectList/executeParam', {
-            groupId: row.groupId,
-            modelCode: '#in#' + this.commandParamModelCodes.join(',')
-          })
+          // let paramsMyTemplate = await $$get('/commonData/selectList/executeParam', {
+          //   myTemplateId: row.id,
+          //   modelCode: '#in#' + this.commandParamModelCodes.join(',')
+          // })
+          // let paramsGroup = await $$get('/commonData/selectList/executeParam', {
+          //   groupId: row.groupId,
+          //   modelCode: '#in#' + this.commandParamModelCodes.join(',')
+          // })
           this.paramsModelMap = CollUtil.listToMap(await $$get('/commonData/selectList/executeParamModel', {
             code: '#in#' + this.commandParamModelCodes.join(',')
           }), 'code')
-          let paramsMap = {}
-          paramsGroup.forEach(p => paramsMap[p.modelCode] = p)
-          paramsMyTemplate.forEach(p => paramsMap[p.modelCode] = p)
-          this.paramsMap = paramsMap
-          let commandParams = this.commandParamModelCodes.map(p => paramsMap[p]);
-          commandParams.forEach(commandParam=>{
+          // let paramsMap = {}
+          // paramsGroup.forEach(p => paramsMap[p.modelCode] = p)
+          // paramsMyTemplate.forEach(p => paramsMap[p.modelCode] = p)
+          this.paramsMap = executeParamMap
+          let commandParams = this.commandParamModelCodes.map(p => this.paramsMap[p]);
+          commandParams.forEach(commandParam => {
             commandParam.model = this.paramsModelMap[commandParam.modelCode]
             if (commandParam.model.multipleField) {
               commandParam.modelSelects = JSON.parse(commandParam.value)

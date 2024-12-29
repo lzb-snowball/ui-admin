@@ -16,7 +16,8 @@
         @showForm="showForm"
     >
       <template #tableOptionPrepend="scope">
-        <my-execute-template-execute :scope="scope" :order="scope.row" @executeSuccess="executeSuccess" :opts="['STOP']"></my-execute-template-execute>
+        <i v-if="['FAIL','DOING','STOP'].includes(scope.row.state)" class="el-icon-refresh mr-4" @click="getPage"></i>
+        <my-execute-template-execute :scope="scope" :order="scope.row" @executeSuccess="executeSuccess" :from="'executeOrder'"></my-execute-template-execute>
       </template>
     </areaTable>
     <!--编辑弹窗-->
@@ -43,7 +44,7 @@ export default {
         entityName: 'executeOrder',
         tableConfigs: {
           base: {
-            addFieldNames: {0:'id',7: 'stepNoCurrent'},
+            // addFieldNames: {0:'id',7: 'stepNoCurrent'},
           },
         },
         fieldConfigsMap: {
