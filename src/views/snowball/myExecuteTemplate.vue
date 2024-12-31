@@ -41,10 +41,13 @@
         </div>
       </template>
       <template #tableOptionPrepend="scope">
-        <my-execute-template-execute :scope="scope" :order="{id:scope.row.lastOrderId,myTemplateId:scope.row.id,state:scope.row.lastOrderState}" @executeBefore="executeBefore" @executeSuccess="executeSuccess" :from="'myExecuteTemplate'"></my-execute-template-execute>
-          <!--          <el-button v-if="hasPerm('executeOrder','selectOne')" size="mini" title="" class="pa-0" @click="viewOrder(scope.row.id)">-->
-          <!--            执行详情-->
-          <!--          </el-button>-->
+        <my-execute-template-execute :scope="scope"
+                                     :order="{id:scope.row.lastOrderId,myTemplateId:scope.row.id,state:scope.row.lastOrderState}"
+                                     @executeBefore="executeBefore" @executeSuccess="executeSuccess"
+                                     :from="'myExecuteTemplate'"></my-execute-template-execute>
+        <!--          <el-button v-if="hasPerm('executeOrder','selectOne')" size="mini" title="" class="pa-0" @click="viewOrder(scope.row.id)">-->
+        <!--            执行详情-->
+        <!--          </el-button>-->
       </template>
     </areaTable>
     <!--编辑弹窗-->
@@ -60,16 +63,18 @@
           <el-alert type="warning" v-if="formDataLoadCommandsLack.length" class="mb-2">
             待配置参数:
             <div v-for="formDataLoadCommand in formDataLoadCommandsLack">
-              <div v-if="formDataLoadCommand.name">{{formDataLoadCommand.name}} : </div>
+              <div v-if="formDataLoadCommand.name">{{ formDataLoadCommand.name }} :</div>
               <div v-for="paramLack in formDataLoadCommand.contentParamRequiredsLack">
-                {{paramLack}}
+                {{ paramLack }}
               </div>
             </div>
           </el-alert>
           <div>模板参数值:</div>
-          <execute-param :params="{myTemplateId:formData.id}" style="padding: 0;" :tableConfigUnitParams="executeParamTableConfigUnitParams"></execute-param>
+          <execute-param :params="{myTemplateId:formData.id}" style="padding: 0;"
+                         :tableConfigUnitParams="executeParamTableConfigUnitParams"></execute-param>
           <div>分组参数值:</div>
-          <execute-param :params="{groupId:formData.groupId, myTemplateId:'#eq#'}" style="padding: 0;" :tableConfigUnitParams="executeParamTableConfigUnitParams"></execute-param>
+          <execute-param :params="{groupId:formData.groupId, myTemplateId:'#eq#'}" style="padding: 0;"
+                         :tableConfigUnitParams="executeParamTableConfigUnitParams"></execute-param>
         </div>
       </template>
     </areaFormDialog>
@@ -94,11 +99,11 @@ export default {
       executeParamTableConfigUnitParams: {
         tableConfigs: {
           search: {
-            removeAdminButtons:['query'],
+            removeAdminButtons: ['query'],
           },
           table: {
             removeFieldNames: ['myTemplateId'],
-            page:{
+            page: {
               hide: true,
             }
           },
@@ -144,7 +149,7 @@ export default {
       return page
     }
 
-    this.tableConfigUnit.fieldConfigsMap.lastOrderState.table._listeners.click=function (v2,v1,entity){
+    this.tableConfigUnit.fieldConfigsMap.lastOrderState.table._listeners.click = function (v2, v1, entity) {
       console.log(entity)
       // todo 订单详情
       This.jump(`/snowball/executeOrder?id=${entity.lastOrderId}`)
@@ -163,22 +168,27 @@ export default {
     async loadCommands(row) {
       if (row.id) {
         this.formDataLoadCommands = await $$get('/execute/loadCommands', {myTemplateId: row.id})
-        this.formDataLoadCommandsLack = this.formDataLoadCommands.filter(c=>c.contentParamRequiredsLack.length)
+        this.formDataLoadCommandsLack = this.formDataLoadCommands.filter(c => c.contentParamRequiredsLack.length)
         this.$set(row, 'loadCommands', this.formDataLoadCommands)
       }
     },
     async executeBefore(row) {
       let This = this
-      this.$nextTick(() => {
-        this.$nextTick(() => {
-          This.$refs.table.$refs.table.toggleRowExpansion(row, true)
-        })
-      })
+      await this.$nextTick();
+      This.$refs.table.$refs.table.toggleRowExpansion(row, true)
+      await this.$nextTick();
+      setTimeout(()=>{
+        This.$refs[`${row.id}_executeOrders`].executeBefore()
+      },300)
     },
     async executeSuccess(row) {
+      let newTemplate = await $$get('/commonData/selectOne/myExecuteTemplate', {id: row.id});
+      Object.keys(newTemplate).forEach((key) => {
+        this.$set(row, key, newTemplate[key]);
+      });
       this.$refs[`${row.id}_executeOrders`].getPage()
     },
-    tabInput(){
+    tabInput() {
       console.log('tabInput', arguments)
     }
   }

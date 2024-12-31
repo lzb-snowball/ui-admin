@@ -50,7 +50,7 @@
         </el-button>
       </div>
       <el-button slot="reference" :type="'executeOrder'=== from?'warning':'primary'"
-                 v-show="hasPerm('executeOrder','insert') && ['SUCCESS','FAIL','STOP',undefined].includes(order.state) "
+                 v-show="hasPerm('executeOrder','insert') && ( ('executeOrder'=== from && ['FAIL','STOP',undefined].includes(order.state)) || ('myExecuteTemplate'=== from && ['SUCCESS','FAIL','STOP',undefined].includes(order.state))) "
                  size="mini" title="" class="pa-0 mr-2">
         {{ 'executeOrder'=== from ? $t('重试') : $t('开始') }}
       </el-button>
@@ -160,17 +160,9 @@ export default {
       // 新增/修改订单 (开始/停止执行订单)
       $$post('/commonData/insertOrUpdate/executeOrder', orderUpdate).then(async (res) => {
         this.$message.success(label + this.$t('成功'))
-        console.log('row', row)
-        let newTemplate = await $$get('/commonData/selectOne/myExecuteTemplate', {id: order.myTemplateId});
-        console.log('rowNew', newTemplate)
-        // row = {...newTemplate}
-
         this.$emit('executeSuccess', row)
         this.$set(row, 'loading', false)
         this.$set(row, visibleFieldName, false)
-        Object.keys(newTemplate).forEach((key) => {
-          Vue.set(row, key, newTemplate[key]);
-        });
       }).catch(() => {
         this.$set(row, 'loading', false)
       })
@@ -182,7 +174,7 @@ export default {
         this.formDataLoadCommands = order.orderStepCommands
         this.formDataLoadCommandsLack = this.formDataLoadCommands.filter(c => c.contentParamRequiredsLack.length)
         this.commandParamModelCodes = CollUtil.deduplicateArray(this.formDataLoadCommands.map(c => c.contentParamRequireds).flat())
-        this.$set(row, 'loadCommands', this.formDataLoadCommands)
+        // Vue.set(row, 'loadCommands', this.formDataLoadCommands)
         if (this.commandParamModelCodes.length) {
           // let paramsMyTemplate = await $$get('/commonData/selectList/executeParam', {
           //   myTemplateId: row.id,

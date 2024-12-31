@@ -8,6 +8,10 @@ const service = axios.create({
   baseURL: '/api', // api 的 base_url
   timeout: 60000 // 请求超时时间
 })
+// export const serviceDirect = axios.create({
+//   baseURL: '/api', // api 的 base_url
+//   timeout: 60000 // 请求超时时间
+// })
 
 // request拦截器
 service.interceptors.request.use(
