@@ -156,7 +156,7 @@ export default {
         orderUpdate.id = null
       }
       // let optType = "changeState"
-      this.$emit('executeBefore', row)
+      this.$emit('executeBefore', row, true)
       // 新增/修改订单 (开始/停止执行订单)
       $$post('/commonData/insertOrUpdate/executeOrder', orderUpdate).then(async (res) => {
         this.$message.success(label + this.$t('成功'))

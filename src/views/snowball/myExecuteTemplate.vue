@@ -8,7 +8,15 @@
         :page-params.sync="pageParams"
         @getPage="getPage"
         @showForm="showForm"
-    />
+    >
+      <template #buttonAfter>
+        <el-button
+            size="small"
+            @click="expansionAll"
+        >{{$t('展开全部')}}
+        </el-button>
+      </template>
+    </areaSearch>
     <!--表格-->
     <areaTable
         ref="table"
@@ -44,7 +52,7 @@
       <template #tableOptionPrepend="scope">
         <my-execute-template-execute :scope="scope"
                                      :order="{id:scope.row.lastOrderId,myTemplateId:scope.row.id,state:scope.row.lastOrderState}"
-                                     @executeBefore="executeBefore" @executeSuccess="executeSuccess"
+                                     @executeBefore="expansion" @executeSuccess="executeSuccess"
                                      :from="'myExecuteTemplate'"></my-execute-template-execute>
         <!--          <el-button v-if="hasPerm('executeOrder','selectOne')" size="mini" title="" class="pa-0" @click="viewOrder(scope.row.id)">-->
         <!--            执行详情-->
@@ -88,6 +96,7 @@ import areaTableUnit from "@/parent-ui/src/main/ui-element/autotable/areaTableUn
 import MyExecuteTemplateParam from "@/views/snowball/myExecuteTemplateParam.vue";
 import ExecuteParam from "@/views/snowball/executeParam.vue";
 import MyExecuteTemplateExecute from "@/views/snowball/myExecuteTemplateExecute.vue";
+import {eventBus} from "@/parent-ui/src/main/js/utils/WebsocketUtil";
 
 export default {
   name: 'myExecuteTemplate',
@@ -143,7 +152,7 @@ export default {
       if (!This.mixin.isProd) {
         // setTimeout(()=>{
         if (page.records.length) {
-          This.executeBefore(page.records[0])
+          This.expansion(page.records[0])
         }
         // },500)
       }
@@ -159,6 +168,16 @@ export default {
 
     // this.$refs.table.$refs.table.toggleRowExpansion(row, true)
   },
+  mounted() {
+    let dataEntity = 'MyExecuteTemplate'
+    // 组件挂载时开始监听事件
+    eventBus.$on(`get${dataEntity}Msg`, this.handleWebSocketMessage)
+  },
+  beforeDestroy() {
+    let dataEntity = 'MyExecuteTemplate'
+    // 组件卸载时移除事件监听器
+    eventBus.$off(`get${dataEntity}Msg`, this.handleWebSocketMessage)
+  },
   methods: {
     showForm(data) {
       this.formData = {...data.entity, ...this.params}
@@ -168,19 +187,27 @@ export default {
     },
     async loadCommands(row) {
       if (row.id) {
-        this.formDataLoadCommands = await $$get('/execute/loadCommands', {myTemplateId: row.id})
+        let order = await $$get('/execute/loadCommands', {myTemplateId: row.id});
+        this.formDataLoadCommands = order.orderStepCommands
         this.formDataLoadCommandsLack = this.formDataLoadCommands.filter(c => c.contentParamRequiredsLack.length)
         this.$set(row, 'loadCommands', this.formDataLoadCommands)
       }
     },
-    async executeBefore(row) {
+    async expansion(row, expansionLog = false) {
       let This = this
       await this.$nextTick();
       This.$refs.table.$refs.table.toggleRowExpansion(row, true)
-      await this.$nextTick();
-      setTimeout(()=>{
-        This.$refs[`${row.id}_executeOrders`].executeBefore()
-      },300)
+      if (expansionLog) {
+        await this.$nextTick();
+        setTimeout(()=>{
+          This.$refs[`${row.id}_executeOrders`].expansion()
+        },300)
+      }
+    },
+    async expansionAll(row) {
+      this.$refs.table.pageResponse.records.forEach(row=>{
+        this.expansion(row, false)
+      })
     },
     async executeSuccess(row) {
       let newTemplate = await $$get('/commonData/selectOne/myExecuteTemplate', {id: row.id});
@@ -191,7 +218,18 @@ export default {
     },
     tabInput() {
       console.log('tabInput', arguments)
-    }
+    },
+    handleWebSocketMessage(dataStr) {
+      let data = JSON.parse(dataStr)
+      console.log('handleWebSocketMessage', data)
+      this.$refs.table.pageResponse.records.filter(row=>{
+        if (row.id === data.id) {
+          Object.keys(data).forEach((key) => {
+            this.$set(row, key, data[key]);
+          });
+        }
+      })
+    },
   }
 }
 </script>

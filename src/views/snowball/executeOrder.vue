@@ -24,8 +24,8 @@
         ></terminal>
       </template>
       <template #tableOptionPrepend="scope">
-        <i v-if="['FAIL','DOING','STOP'].includes(scope.row.state)" class="el-icon-refresh mr-4" @click="getPage"></i>
-        <my-execute-template-execute :scope="scope" :order="scope.row" @executeBefore="executeBefore(scope.row)"
+        <i v-if="['FAIL','DOING','STOP'].includes(scope.row.state)" class="el-icon-refresh mr-4" @click="refreshRow(scope.row)"></i>
+        <my-execute-template-execute :scope="scope" :order="scope.row" @executeBefore="expansion(scope.row)"
                                      @executeSuccess="executeSuccess"
                                      :from="'executeOrder'"></my-execute-template-execute>
       </template>
@@ -44,6 +44,7 @@
 import areaTableUnit from "@/parent-ui/src/main/ui-element/autotable/areaTableUnit.vue";
 import MyExecuteTemplateExecute from "@/views/snowball/myExecuteTemplateExecute.vue";
 import Terminal from "@/parent-ui/src/main/other-framwork/Terminal.vue";
+import {eventBus} from "@/parent-ui/src/main/js/utils/WebsocketUtil";
 
 export default {
   name: 'executeOrder',
@@ -87,6 +88,16 @@ export default {
   created() {
 
   },
+  mounted() {
+    let dataEntity = 'ExecuteOrder'
+    // 组件挂载时开始监听事件
+    eventBus.$on(`get${dataEntity}Msg`, this.handleWebSocketMessage)
+  },
+  beforeDestroy() {
+    let dataEntity = 'ExecuteOrder'
+    // 组件卸载时移除事件监听器
+    eventBus.$off(`get${dataEntity}Msg`, this.handleWebSocketMessage)
+  },
   methods: {
     // saveOrUpdateExecuteOrder(row, newState) {
     //   this.$set(row, 'loading', true)
@@ -108,6 +119,9 @@ export default {
     //   })
     // },
     async executeSuccess(row) {
+      await this.refreshRow(row)
+    },
+    async refreshRow(row) {
       let newTemplate = await $$get('/commonData/selectOne/executeOrder', {id: row.id});
       Object.keys(newTemplate).forEach((key) => {
         this.$set(row, key, newTemplate[key]);
@@ -124,10 +138,22 @@ export default {
         }
       }
     },
-    async executeBefore(row) {
+    async expansion(row) {
       await this.$nextTick();
       let records = this.$refs.table.pageResponse.records;
       this.$refs.table.$refs.table.toggleRowExpansion(row || records.length && records[0] || null, true)
+    },
+    handleWebSocketMessage(dataStr) {
+      let data = JSON.parse(dataStr)
+      console.log('handleWebSocketMessage', data)
+      this.$refs.table.pageResponse.records.filter(row=>{
+        // debugger
+        if (row.id === data.id) {
+          Object.keys(data).forEach((key) => {
+            this.$set(row, key, data[key]);
+          });
+        }
+      })
     },
   }
 }
