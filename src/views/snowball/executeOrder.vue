@@ -88,25 +88,25 @@ export default {
 
   },
   methods: {
-    saveOrUpdateExecuteOrder(row, newState) {
-      this.$set(row, 'loading', true)
-      let id = row.id
-      let myTemplateId = null
-      let state = newState
-      let optType = "changeState"
-      // 新增/修改订单 (开始/停止执行订单)
-      $$post('/commonData/insertOrUpdate/executeOrder', {
-        id,
-        myTemplateId,
-        state,
-        optType,
-      }).then(res => {
-        this.getPage()
-        this.$set(row, 'loading', false)
-      }).catch(() => {
-        this.$set(row, 'loading', false)
-      })
-    },
+    // saveOrUpdateExecuteOrder(row, newState) {
+    //   this.$set(row, 'loading', true)
+    //   let id = row.id
+    //   let myTemplateId = null
+    //   let state = newState
+    //   let optType = "changeState"
+    //   // 新增/修改订单 (开始/停止执行订单)
+    //   $$post('/commonData/insertOrUpdate/executeOrder', {
+    //     id,
+    //     myTemplateId,
+    //     state,
+    //     optType,
+    //   }).then(res => {
+    //     this.getPage()
+    //     this.$set(row, 'loading', false)
+    //   }).catch(() => {
+    //     this.$set(row, 'loading', false)
+    //   })
+    // },
     async executeSuccess(row) {
       let newTemplate = await $$get('/commonData/selectOne/executeOrder', {id: row.id});
       Object.keys(newTemplate).forEach((key) => {

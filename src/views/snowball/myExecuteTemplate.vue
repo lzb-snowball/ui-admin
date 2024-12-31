@@ -16,6 +16,7 @@
         :page-params="pageParams"
         @showForm="showForm"
         :tableColumnPrependCfg="{type:'expand'}"
+        :row-key="row => row.id"
     >
       <template v-slot:tableColumnPrepend="scope">
         <div>
