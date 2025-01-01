@@ -38,7 +38,7 @@ const store = new Vuex.Store({
     ...defaultMutations(state),
     addDataMapEntity(state, map) {
       for (const key of Object.keys(map)) {
-        // console.log(`map[key] ${key}`,map[key])
+        console.log(`map[key] ${key}`,map[key])
         Vue.set(state.dataMapEntity, key, map[key])
       }
     },
