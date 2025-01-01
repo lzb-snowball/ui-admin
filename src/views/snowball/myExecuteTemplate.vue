@@ -13,7 +13,7 @@
         <el-button
             size="small"
             @click="expansionAll"
-        >{{$t('展开全部')}}
+        >{{expansionFlag?$t('展开全部'):$t('关闭全部')}}
         </el-button>
       </template>
     </areaSearch>
@@ -109,6 +109,7 @@ export default {
   extends: areaTableUnit,
   data() {
     return {
+      expansionFlag: true,
       formDataLoadCommands: [],
       formDataLoadCommandsLack: [],
       executeParamTableConfigUnitParams: {
@@ -213,21 +214,22 @@ export default {
         this.$set(row, 'loadCommands', this.formDataLoadCommands)
       }
     },
-    async expansion(row, expansionLog = false) {
+    async expansion(row, expansionLog = false, expansionFlag) {
       let This = this
       await this.$nextTick();
-      This.$refs.table.$refs.table.toggleRowExpansion(row, true)
-      if (expansionLog) {
+      This.$refs.table.$refs.table.toggleRowExpansion(row, expansionFlag)
+      if (expansionLog && expansionFlag) {
         await this.$nextTick();
         setTimeout(()=>{
           This.$refs[`${row.id}_executeOrders`].expansion()
         },300)
       }
     },
-    async expansionAll(row) {
+    async expansionAll() {
       this.$refs.table.pageResponse.records.forEach(row=>{
-        this.expansion(row, false)
+        this.expansion(row, null, this.expansionFlag)
       })
+      this.expansionFlag = !this.expansionFlag
     },
     async executeSuccess(row) {
       let newTemplate = await $$get('/commonData/selectOne/myExecuteTemplate', {id: row.id});
