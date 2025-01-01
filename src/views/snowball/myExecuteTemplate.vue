@@ -97,7 +97,12 @@ import MyExecuteTemplateParam from "@/views/snowball/myExecuteTemplateParam.vue"
 import ExecuteParam from "@/views/snowball/executeParam.vue";
 import MyExecuteTemplateExecute from "@/views/snowball/myExecuteTemplateExecute.vue";
 import {eventBus} from "@/parent-ui/src/main/js/utils/WebsocketUtil";
-
+const stateMap = {
+  'DOING':null,
+  'SUCCESS':'success',
+  'FAIL':'exception',
+  'STOP':'warning',
+}
 export default {
   name: 'myExecuteTemplate',
   components: {MyExecuteTemplateExecute, ExecuteParam, MyExecuteTemplateParam, ExecuteOrder, Ztab},
@@ -132,12 +137,29 @@ export default {
           },
         },
         fieldConfigsMap: {
+          // lastOrderState: {
+          //   table: {
+          //     style: 'text-decoration-line: underline',
+          //     _listeners: {}
+          //   }
+          // },
           lastOrderState: {
             table: {
+              _listeners: {},// 关闭监听避免click事件触发不了
               style: 'text-decoration-line: underline',
-              _listeners: {}
+              fieldName: 'lastOrderState',
+              label: this.$t('状态'),
+              changeResult(content,p1, entity) {
+                  return <div class="d-flex flex-column">
+                    <div>{content} {entity.lastOrderStepNoCurrent + '/' + entity.lastOrderStepNoAll}</div>
+                    <el-progress show-text={false}  class={'full-width mt-1 '+(this.innerValue === 'DOING'?'blinking':'')}
+                                 percentage={parseInt(entity.lastOrderStepNoCurrent * 100 / entity.lastOrderStepNoAll)||0}
+                                 status={stateMap[entity.lastOrderState]}></el-progress>
+                  </div>
+                  // return <div>{content}<i class="el-icon-loading"></i></div>
+              },
             }
-          }
+          },
         }
       }
     }
@@ -150,11 +172,9 @@ export default {
         record.visibleStart = false
       })
       if (!This.mixin.isProd) {
-        // setTimeout(()=>{
-        if (page.records.length) {
-          This.expansion(page.records[0])
-        }
-        // },500)
+        // if (page.records.length) {
+        //   This.expansion(page.records[0])
+        // }
       }
       return page
     }
@@ -221,7 +241,7 @@ export default {
     },
     handleWebSocketMessage(dataStr) {
       let data = JSON.parse(dataStr)
-      console.log('handleWebSocketMessage', data)
+      console.log('handleWebSocketMessage myExecuteTemplate', data)
       this.$refs.table.pageResponse.records.filter(row=>{
         if (row.id === data.id) {
           Object.keys(data).forEach((key) => {

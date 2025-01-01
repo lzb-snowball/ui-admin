@@ -45,10 +45,16 @@ import areaTableUnit from "@/parent-ui/src/main/ui-element/autotable/areaTableUn
 import MyExecuteTemplateExecute from "@/views/snowball/myExecuteTemplateExecute.vue";
 import Terminal from "@/parent-ui/src/main/other-framwork/Terminal.vue";
 import {eventBus} from "@/parent-ui/src/main/js/utils/WebsocketUtil";
-
+import Zselect from "@/parent-ui/src/main/ui-element/zselect.vue";
+const stateMap = {
+  'DOING':null,
+  'SUCCESS':'success',
+  'FAIL':'exception',
+  'STOP':'warning',
+}
 export default {
   name: 'executeOrder',
-  components: {Terminal, MyExecuteTemplateExecute},
+  components: {Zselect, Terminal, MyExecuteTemplateExecute},
   extends: areaTableUnit,
   data() {
     return {
@@ -56,7 +62,7 @@ export default {
         entityName: 'executeOrder',
         tableConfigs: {
           base: {
-            // addFieldNames: {0:'id',7: 'stepNoCurrent'},
+            addFieldNames: {0:'id'},
           },
         },
         fieldConfigsMap: {
@@ -71,13 +77,25 @@ export default {
               isEdit: true,
             },
           },
-          stepNoCurrent: {
+          // stepNoCurrent: {
+          //   table: {
+          //     fieldName: 'stepNoCurrent',
+          //     label: this.$t('第几步'),
+          //     render(p1, entity) {
+          //       return <div>{entity.stepNoCurrent + '/' + entity.stepNoAll}</div>
+          //       // return `<div>entity.stepNoCurrent + '/' + entity.stepNoAll</div>`
+          //     }
+          //   }
+          // },
+          state: {
             table: {
-              fieldName: 'stepNoCurrent',
-              label: this.$t('第几步'),
-              render(p1, entity) {
-                return <div>{entity.stepNoCurrent + '/' + entity.stepNoAll}</div>
-                // return `<div>entity.stepNoCurrent + '/' + entity.stepNoAll</div>`
+              fieldName: 'state',
+              label: this.$t('状态'),
+              changeResult(content,p1, entity) {
+                  return <div class="d-flex flex-column">
+                    <div>{content} {entity.stepNoCurrent + '/' + entity.stepNoAll}</div>
+                    <el-progress show-text={false} class={'full-width mt-1 '+(this.innerValue === 'DOING'?'blinking':'')} percentage={parseInt(entity.stepNoCurrent*100/entity.stepNoAll)||0} status={stateMap[entity.state]}></el-progress>
+                  </div>
               }
             }
           },
@@ -145,10 +163,10 @@ export default {
     },
     handleWebSocketMessage(dataStr) {
       let data = JSON.parse(dataStr)
-      console.log('handleWebSocketMessage', data)
       this.$refs.table.pageResponse.records.filter(row=>{
         // debugger
         if (row.id === data.id) {
+          console.log('handleWebSocketMessage executeOrder', data)
           Object.keys(data).forEach((key) => {
             this.$set(row, key, data[key]);
           });
