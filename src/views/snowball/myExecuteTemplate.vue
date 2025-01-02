@@ -173,9 +173,9 @@ export default {
         record.visibleStart = false
       })
       if (!This.mixin.isProd) {
-        // if (page.records.length) {
-        //   This.expansion(page.records[0])
-        // }
+        if (page.records.length) {
+          This.expansion(page.records[0])
+        }
       }
       return page
     }
@@ -214,7 +214,7 @@ export default {
         this.$set(row, 'loadCommands', this.formDataLoadCommands)
       }
     },
-    async expansion(row, expansionLog = false, expansionFlag) {
+    async expansion(row, expansionLog = false, expansionFlag = true) {
       let This = this
       await this.$nextTick();
       This.$refs.table.$refs.table.toggleRowExpansion(row, expansionFlag)
@@ -243,7 +243,7 @@ export default {
     },
     handleWebSocketMessage(dataStr) {
       let data = JSON.parse(dataStr)
-      console.log('handleWebSocketMessage myExecuteTemplate', data)
+      // console.log('handleWebSocketMessage myExecuteTemplate', data)
       this.$refs.table.pageResponse.records.filter(row=>{
         if (row.id === data.id) {
           Object.keys(data).forEach((key) => {
