@@ -155,7 +155,7 @@ export default {
                   return <div class="d-flex flex-column">
                     <div>{content} {entity.lastOrderStepNoCurrent + '/' + entity.lastOrderStepNoAll}</div>
                     <el-progress show-text={false}  class={'full-width mt-1 '+(this.innerValue === 'DOING'?'blinking':'')}
-                                 percentage={parseInt(entity.lastOrderStepNoCurrent * 100 / entity.lastOrderStepNoAll)||0}
+                                 percentage={parseFloat(entity.lastOrderStepNoCurrent * 100 / entity.lastOrderStepNoAll)||0}
                                  status={stateMap[entity.lastOrderState]}></el-progress>
                   </div>
                   // return <div>{content}<i class="el-icon-loading"></i></div>
