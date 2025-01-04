@@ -169,6 +169,7 @@ export default {
     },
     async loadCommands(row) {
       if (row.id) {
+        this.$set(row, 'loading', true)
         let order = await $$get('/execute/loadCommands', {myTemplateId: this.order.myTemplateId})
         let executeParamMap = order.executeParamMap
         this.formDataLoadCommands = order.orderStepCommands
@@ -204,6 +205,7 @@ export default {
             }
           })
           this.commandParams = commandParams
+          this.$set(row, 'loading', false)
         }
       }
     },
