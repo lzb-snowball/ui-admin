@@ -215,21 +215,23 @@ export default {
         this.$set(row, 'loadCommands', this.formDataLoadCommands)
       }
     },
-    async expansion(row, expansionLog = false, expansionFlag = true) {
+    async expansion(row, expansionFlag = true) {
       let This = this
       await this.$nextTick();
-      if (expansionLog && expansionFlag) {
+      if (expansionFlag) {
         this.doGetPageAfter = ()=>{
           This.$refs[`${row.id}_executeOrders`].expansion()
           this.doGetPageAfter = null
         }
         This.$refs.table.$refs.table.toggleRowExpansion(row, expansionFlag)
         await this.$nextTick();
+      } else {
+        This.$refs.table.$refs.table.toggleRowExpansion(row, expansionFlag)
       }
     },
     async expansionAll() {
       this.$refs.table.pageResponse.records.forEach(row=>{
-        this.expansion(row, null, this.expansionFlag)
+        this.expansion(row,  this.expansionFlag)
       })
       this.expansionFlag = !this.expansionFlag
     },
