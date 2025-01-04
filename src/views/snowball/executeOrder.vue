@@ -14,6 +14,7 @@
         :table-config-unit="tableConfigUnitInner"
         :page-params="pageParams"
         @showForm="showForm"
+        @getPage="getPageAfter"
         :tableColumnPrependCfg="{type:'expand'}"
     >
 
@@ -56,6 +57,9 @@ export default {
   name: 'executeOrder',
   components: {Zselect, Terminal, MyExecuteTemplateExecute},
   extends: areaTableUnit,
+  props: {
+    doGetPageAfter:{},
+  },
   data() {
     return {
       tableConfigUnit: {
@@ -117,6 +121,11 @@ export default {
     eventBus.$off(`get${dataEntity}Msg`, this.handleWebSocketMessage)
   },
   methods: {
+    getPageAfter() {
+      if (this.doGetPageAfter) {
+        this.doGetPageAfter()
+      }
+    },
     // saveOrUpdateExecuteOrder(row, newState) {
     //   this.$set(row, 'loading', true)
     //   let id = row.id
@@ -163,7 +172,7 @@ export default {
     },
     handleWebSocketMessage(dataStr) {
       let data = JSON.parse(dataStr)
-      this.$refs.table.pageResponse.records.filter(row=>{
+      this.$refs.table.pageResponse && this.$refs.table.pageResponse.records.filter(row=>{
         // debugger
         if (row.id === data.id) {
           // console.log('handleWebSocketMessage executeOrder', data)

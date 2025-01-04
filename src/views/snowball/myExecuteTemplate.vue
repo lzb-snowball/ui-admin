@@ -43,7 +43,7 @@
                                     }
                                   },
                                 }
-                              }" style="padding: 0 8px;"></execute-order>
+                              }" style="padding: 0 8px;" :doGetPageAfter="doGetPageAfter"></execute-order>
           <div class="full-width text-center mb-1 pa-1"
                @click="jump(`/snowball/executeOrder?myTemplateId=${scope.row.id}`)">{{ $t('更多') }}
           </div>
@@ -109,6 +109,7 @@ export default {
   extends: areaTableUnit,
   data() {
     return {
+      doGetPageAfter: null,
       expansionFlag: true,
       formDataLoadCommands: [],
       formDataLoadCommandsLack: [],
@@ -217,12 +218,13 @@ export default {
     async expansion(row, expansionLog = false, expansionFlag = true) {
       let This = this
       await this.$nextTick();
-      This.$refs.table.$refs.table.toggleRowExpansion(row, expansionFlag)
       if (expansionLog && expansionFlag) {
-        await this.$nextTick();
-        setTimeout(()=>{
+        this.doGetPageAfter = ()=>{
           This.$refs[`${row.id}_executeOrders`].expansion()
-        },300)
+          this.doGetPageAfter = null
+        }
+        This.$refs.table.$refs.table.toggleRowExpansion(row, expansionFlag)
+        await this.$nextTick();
       }
     },
     async expansionAll() {
