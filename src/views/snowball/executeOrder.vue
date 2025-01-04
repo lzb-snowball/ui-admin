@@ -150,7 +150,7 @@ export default {
       return {
         topic: `ExecuteOrder_${scope.row.id}`,
         topicFn: (data) => {
-          console.log('收到' + `ExecuteOrder_${scope.row.id}` + '消息:', data.body)
+          // console.log('收到' + `ExecuteOrder_${scope.row.id}` + '消息:', data.body)
           // debugger
           This.$refs[`terminal_${scope.row.id}`].writeToTerminalWebsocket(JSON.parse(data.body).data)
         }
