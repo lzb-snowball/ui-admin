@@ -510,7 +510,7 @@ export default {
     getListPid() {
       getList({}).then(res => {
         const listPid = res.data
-        listPid.unshift({ id: '0', title: $t('根节点') })
+        listPid.unshift({ id: '0', title: this.$t('根节点') })
         this.listPid = listPid
       })
     },

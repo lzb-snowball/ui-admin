@@ -1,6 +1,6 @@
 <template>
   <div v-if="tableConfigUnitInner.loaded" class="pa-4">
-    <el-alert type="info">code 和 name 为固有属性</el-alert>
+<!--    <el-alert type="info">code 和 name 为固有属性</el-alert>-->
     <!--搜索-->
     <areaSearch
         :table-config-unit="tableConfigUnitInner"
@@ -38,6 +38,7 @@ export default {
         tableConfigs: {
           table: {
             filterButton(btn, scope) {
+              // console.log(btn, scope)
               switch (btn) {
                 case 'delete':
                   return !scope.row.systemFlag

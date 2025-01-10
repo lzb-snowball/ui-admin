@@ -81,16 +81,6 @@ export default {
               isEdit: true,
             },
           },
-          // stepNoCurrent: {
-          //   table: {
-          //     fieldName: 'stepNoCurrent',
-          //     label: this.$t('第几步'),
-          //     render(p1, entity) {
-          //       return <div>{entity.stepNoCurrent + '/' + entity.stepNoAll}</div>
-          //       // return `<div>entity.stepNoCurrent + '/' + entity.stepNoAll</div>`
-          //     }
-          //   }
-          // },
           state: {
             table: {
               fieldName: 'state',

@@ -64,7 +64,11 @@ export default {
     this.tableConfigUnit = {
       entityName: 'authDict',
       tableConfigs: {
-        table: {},
+        table: {
+          page:{
+            hide:true
+          },
+        },
         search: {},
         form: {},
         base: {
@@ -76,7 +80,7 @@ export default {
       fieldConfigsMap: {
         label: {
           base: {
-            width: 250
+            width: 350
           }
         },
         value: {
@@ -104,7 +108,7 @@ export default {
                     picker-options={{ selectableRange: '00:00:00 - 23:59:59' }}
                     value-format={'HH:mm:ss'} format={'HH:mm:ss'} placeholder={'选择时间'}/>
                 default:
-                  return <zinput v-model={this.innerValue} type={entity.inputType}/>
+                  return <zinput v-model={this.innerValue} type={entity.inputType} placeholder={attrs.placeholder} size={attrs.size}/>
               }
             }
           },

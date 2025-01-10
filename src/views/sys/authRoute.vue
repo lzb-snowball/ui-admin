@@ -18,12 +18,17 @@ export default {
             rowKey: 'code',
             afterPage: (page) => {
               page.records = CollUtil.buildTree(page.records)
+              page.total = 0
+              // page.total = page.records.length
               return page
             },
             removeFieldNames: []
           },
           table: {
-            removeFieldNames: ['code', 'pcode']
+            removeFieldNames: ['code', 'pcode'],
+            page:{
+              hide:true
+            },
           },
         },
         fieldConfigsMap: {
