@@ -9,18 +9,18 @@
 <!--        order={{order}} <br/> <br/>-->
         <!--        scope.row={{scope.row}}<br/> <br/>-->
          <div class="">
-           参数
+           {{$t('参数')}}
           <el-alert type="warning" v-if="formDataLoadCommandsLack.length" class="mb-2">
-            待配置
+            {{$t('待配置')}}
             <div v-for="formDataLoadCommand in formDataLoadCommandsLack">
-              <div v-if="formDataLoadCommand.name">{{ formDataLoadCommand.name }} : </div>
+              <div v-if="formDataLoadCommand.name">{{ $t(formDataLoadCommand.name) }} : </div>
               <div v-for="paramLack in formDataLoadCommand.contentParamRequiredsLack">
                 {{ paramLack }}
               </div>
             </div>
           </el-alert>
           <div>
-            过滤:  <zbool v-model="inputParamMapFilter.executeEdit" :true-label-input="$t('可编辑')"
+            {{$t('过滤')}}:  <zbool v-model="inputParamMapFilter.executeEdit" :true-label-input="$t('可编辑')"
                           :false-label-input="$t('不可编辑')" :is-edit="true" size="small"></zbool>
           </div>
           <el-form :model="inputParamMap" label-width="100px">
@@ -159,7 +159,7 @@ export default {
       this.$emit('executeBefore', row, true)
       // 新增/修改订单 (开始/停止执行订单)
       $$post('/commonData/insertOrUpdate/executeOrder', orderUpdate).then(async (res) => {
-        this.$message.success(label + this.$t('成功'))
+        this.$message.success(label + ' ' + this.$t('成功'))
         this.$emit('executeSuccess', row)
         this.$set(row, 'loading', false)
         this.$set(row, visibleFieldName, false)

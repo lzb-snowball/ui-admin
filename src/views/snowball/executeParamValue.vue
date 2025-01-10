@@ -32,7 +32,7 @@
         <el-table-column
             :label="$t('操作')"
             align="center"
-            :width="50"
+            :width="100"
         >
           <template slot-scope="scope3">
             <el-icon name="delete" @click.native="()=>scope2.scope.value.splice(scope3.$index, 1)"></el-icon>
