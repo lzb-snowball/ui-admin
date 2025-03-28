@@ -130,10 +130,11 @@ export default {
       tableConfigUnit: {
         entityName: 'myExecuteTemplate',
         tableConfigs: {
-          base: {
-            removeFieldNames: ['groupId']
+          search: {
+            removeFieldNames: ['groupId'],
           },
           table: {
+            removeFieldNames: ['groupId'],
             opt: {
               size: 236,
             },
