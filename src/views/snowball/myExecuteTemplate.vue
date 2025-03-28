@@ -85,6 +85,7 @@
           <execute-param :params="{groupId:formData.groupId, myTemplateId:'#eq#'}" style="padding: 0;"
                          :tableConfigUnitParams="executeParamTableConfigUnitParams"></execute-param>
         </div>
+        <div v-else>参数配置-请先保存</div>
       </template>
     </areaFormDialog>
   </div>
