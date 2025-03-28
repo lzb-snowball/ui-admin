@@ -20,17 +20,18 @@
             </div>
           </el-alert>
           <div>
-            {{$t('过滤')}}:  <zbool v-model="inputParamMapFilter.executeEdit" :true-label-input="$t('可编辑')"
+            {{$t('过滤')}}:  <zbool v-model="inputParamMapFilter.executeEditType" :true-label-input="$t('可编辑')"
                           :false-label-input="$t('不可编辑')" :is-edit="true" size="small"></zbool>
           </div>
           <el-form :model="inputParamMap" label-width="100px">
             <template v-for="param in params">
                <el-form-item v-if="param" :label="$t(param.name || param.modelCode)" :prop="param.modelCode">
                   <zselect v-if="param.model.multipleField" v-model="inputParamMap[param.modelCode]"
-                           :dict-list="param.modelSelects" list-label="name" :disabled="!param.executeEdit"
+                           :dict-list="param.modelSelects" list-label="name" :disabled="param.executeEditType==='CANNOT_EDIT'"
                            :is-edit="true" :multiple="param.model.multipleValue"/>
                   <el-input v-else v-model="inputParamMap[param.modelCode]" type="textarea"
-                            :disabled="!param.executeEdit"/>
+                            :disabled="param.executeEditType==='CANNOT_EDIT'"/>
+                 inputParamMap[param.modelCode]={{inputParamMap[param.modelCode]}}
                </el-form-item>
            </template>
          </el-form>
@@ -98,7 +99,7 @@ export default {
   data() {
     return {
       inputParamMapFilter: {
-        executeEdit: true,
+        executeEditType: 'CAN_EDIT',
       },
       inputParamMap: {},
       paramsMap: {},

@@ -24,6 +24,7 @@
               <zinput
                   size="mini"
                   v-model="scope.row[executeParamField.code]"
+                  :required="executeParamField.required"
                   w="170"
               />
             </template>
