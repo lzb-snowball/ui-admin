@@ -54,6 +54,7 @@ const stateMap = {
   'STOP':'warning',
 }
 export default {
+  $dataEnums: ['EnumEditType'],
   name: 'executeOrder',
   components: {Zselect, Terminal, MyExecuteTemplateExecute},
   extends: areaTableUnit,
