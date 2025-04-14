@@ -7,7 +7,8 @@
         v-model="scope.row.visibleStart" @show="popoverStartChange">
       <div class="full-width">
 <!--        order={{order}} <br/> <br/>-->
-        <!--        scope.row={{scope.row}}<br/> <br/>-->
+<!--        inputParamMap={{inputParamMap}} <br/> <br/>-->
+<!--                commandParams={{commandParams}}<br/> <br/>-->
          <div class="">
            {{$t('参数')}}
           <el-alert type="warning" v-if="formDataLoadCommandsLack.length" class="mb-2">
@@ -199,10 +200,13 @@ export default {
             if (commandParam.model.multipleField) {
               commandParam.modelSelects = JSON.parse(commandParam.value)
             }
-            if (commandParam.defaultValue) {
+            let defaultValue = commandParam.defaultValue;
+            if (defaultValue) {
+              // debugger
               // this.inputParamMap[commandParam.modelCode] = commandParam.defaultValue
               // let value = commandParam.model.multipleValue ? [commandParam.defaultValue] : commandParam.defaultValue
-              this.$set(this.inputParamMap, commandParam.modelCode, commandParam.defaultValue)
+              console.log(`$set ${commandParam.modelCode} ${defaultValue}`)
+              this.$set(this.inputParamMap, commandParam.modelCode, defaultValue)
             }
           })
           this.commandParams = commandParams
