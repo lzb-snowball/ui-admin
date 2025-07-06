@@ -40,6 +40,18 @@ export default {
             addFieldNames: ['content'],
           }
         },
+        fieldConfigsMap: {
+          name: {
+            base: {
+              width: 170
+            }
+          },
+          stepId: {
+            base: {
+              width: 200
+            }
+          },
+        },
       }
     }
   },
