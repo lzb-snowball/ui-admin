@@ -8,6 +8,10 @@
         @getPage="getPage"
         @showForm="showForm"
     />
+    <el-button size="small" type="primary" @click="dialogFormVisibleEnum = true">另存枚举</el-button>
+    <el-dialog :close-on-click-modal="false" v-if="dialogFormVisibleEnum" :title="$t('另存枚举')" :visible.sync="dialogFormVisibleEnum" width="80%">
+      <pre v-for="data in $refs.table.pageResponse.records">_{{data.id}}("{{data.name}}", {{data.stepId}}L, "{{data.content.replaceAll('\n','\\n').replaceAll('"','\\"')}}", "", 100, true, null),</pre>
+    </el-dialog>
     <!--表格-->
     <areaTable
         ref="table"
@@ -33,6 +37,7 @@ export default {
   extends: configEntity,
   data() {
     return {
+      dialogFormVisibleEnum:false,
       tableConfigUnit: {
         entityName: 'executeStepCommand',
         tableConfigs: {
